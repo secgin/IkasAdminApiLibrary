@@ -4,6 +4,21 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+
+    <!-- NuGet Metadata -->
+    <PackageId>IkasAdminApiLibrary</PackageId>
+    <Version>1.0.1</Version>
+    <!-- Her yeni yayın için artır -->
+    <Authors>Seçgin</Authors>
+    <Company>Seçgin</Company>
+    <Description>IKAS Admin API için .NET kütüphanesi.</Description>
+    <PackageTags>ikas;admin;api</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/secgin/IkasAdminApiLibrary</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/secgin/IkasAdminApiLibrary</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
