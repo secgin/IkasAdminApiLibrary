@@ -89,7 +89,7 @@ namespace IkasAdminApiLibrary.Api.Products
                     .AddField(p => p.Name)
                     .AddField(p => p.Type)
                     .AddField(p => p.CreatedAt)
-                    .AddField(p => p.ProductVariantTypes, v => v
+                    .AddField(p => p.ProductVariantTypes!, v => v
                         .AddField(p => p.Order)
                         .AddField(p => p.VariantTypeId)
                         .AddField(p => p.VariantValueIds))
@@ -105,27 +105,27 @@ namespace IkasAdminApiLibrary.Api.Products
                             .AddField(v => v.CurrencyCode)
                             .AddField(v => v.CurrencySymbol)
                             .AddField(v => v.PriceListId))
-                        .AddField(p => p.Images, v => v
+                        .AddField(p => p.Images!, v => v
                             .AddField(v => v.FileName)
                             .AddField(v => v.ImageId)
                             .AddField(v => v.Order)
                             .AddField(v => v.IsMain))
-                        .AddField(p => p.VariantValueIds, v => v
+                        .AddField(p => p.VariantValueIds!, v => v
                             .AddField(p => p.VariantTypeId)
                             .AddField(p => p.VariantValueId))
-                        .AddField(p => p.Stocks, v => v
+                        .AddField(p => p.Stocks!, v => v
                             .AddField(p => p.Id)
                             .AddField(p => p.ProductId)
                             .AddField(p => p.VariantId)
                             .AddField(p => p.StockLocationId)
                             .AddField(p => p.StockCount))
                         .AddField(p => p.Weight)
-                        .AddField(p => p.Attributes, av => av
+                        .AddField(p => p.Attributes!, av => av
                             .AddField(p => p.ProductAttributeId)
                             .AddField(p => p.ProductAttributeOptionId)
                             .AddField(p => p.Value))
                         .AddField(p => p.HsCode))
-                    .AddField(p => p.Attributes, av => av
+                    .AddField(p => p.Attributes!, av => av
                         .AddField(p => p.ProductAttributeId)
                         .AddField(p => p.ProductAttributeOptionId)
                         .AddField(p => p.Value))
@@ -161,7 +161,7 @@ namespace IkasAdminApiLibrary.Api.Products
                     .AddField(vp => vp.Variants, v => v
                         .AddField(p => p.Id)
                         .AddField(p => p.Sku)
-                        .AddField(sv => sv.VariantValues, v => v
+                        .AddField(sv => sv.VariantValues!, v => v
                             .AddField(p => p.VariantTypeId)
                             .AddField(p => p.VariantValueId)
                         )

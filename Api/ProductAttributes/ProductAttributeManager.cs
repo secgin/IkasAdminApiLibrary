@@ -20,7 +20,7 @@ namespace IkasAdminApiLibrary.Api.ProductAttributes
                 .AddArguments(listProductAttribute ?? new ListProductAttribute())
                .AddField(p => p.Id)
                .AddField(p => p.Name)
-               .AddField(p => p.Options, op => op
+               .AddField(p => p.Options!, op => op
                    .AddField(p => p.Id)
                    .AddField(p => p.Name))
                .AddField(p => p.Description)

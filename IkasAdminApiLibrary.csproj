@@ -22,12 +22,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GraphQL.Query.Builder" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include=".github\workflows\nuget-publish.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
