@@ -1,6 +1,5 @@
 using IkasAdminApiLibrary.Abstracts;
 using IkasAdminApiLibrary.Api.Authentication.Models;
-using Newtonsoft.Json;
 
 namespace IkasAdminApiLibrary
 {

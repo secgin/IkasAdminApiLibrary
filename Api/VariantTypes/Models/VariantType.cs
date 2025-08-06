@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Xml.Linq;
 
 namespace IkasAdminApiLibrary.Api.VariantTypes.Models
 {
@@ -32,23 +31,10 @@ namespace IkasAdminApiLibrary.Api.VariantTypes.Models
 
         public static bool EqualsTurkishIgnoreCase(string a, string b)
         {
-            return Normalize(a) == Normalize(b);
-        }
+            a = a.ToLower(new CultureInfo("tr-TR"));
+            b = b.ToLower(new CultureInfo("tr-TR"));
 
-        public static string Normalize(string? input)
-        {
-            if (input == null) return string.Empty;
-
-            return input
-                .ToLowerInvariant()
-                .Replace("ı", "i")
-                .Replace("İ", "i")
-                .Replace("I", "i")
-                .Replace("ş", "s")
-                .Replace("ç", "c")
-                .Replace("ğ", "g")
-                .Replace("ü", "u")
-                .Replace("ö", "o");
+            return a.Equals(b, StringComparison.CurrentCulture);
         }
     }
 }
