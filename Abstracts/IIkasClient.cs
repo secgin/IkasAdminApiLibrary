@@ -4,6 +4,7 @@ using IkasAdminApiLibrary.Api.ProductAttributes.Abstracts;
 using IkasAdminApiLibrary.Api.ProductBrands.Abstracts;
 using IkasAdminApiLibrary.Api.ProductImages.Abstracts;
 using IkasAdminApiLibrary.Api.Products.Abstracts;
+using IkasAdminApiLibrary.Api.ProductTags.Abstracts;
 using IkasAdminApiLibrary.Api.SalesChannels.Abstracts;
 using IkasAdminApiLibrary.Api.StockLocations.Abstracts;
 using IkasAdminApiLibrary.Api.VariantTypes.Abstracts;
@@ -28,6 +29,8 @@ namespace IkasAdminApiLibrary.Abstracts
         public IProductImageManager ProductImageManager { get; }
 
         public IProductAttributeManager ProductAttributeManager { get; }
+
+        public IProductTagManager ProductTagManager { get; }
 
         public IPriceListsManager PriceListsManager { get; }
 

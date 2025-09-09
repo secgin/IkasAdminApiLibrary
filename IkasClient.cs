@@ -13,6 +13,8 @@ using IkasAdminApiLibrary.Api.ProductImages;
 using IkasAdminApiLibrary.Api.ProductImages.Abstracts;
 using IkasAdminApiLibrary.Api.Products;
 using IkasAdminApiLibrary.Api.Products.Abstracts;
+using IkasAdminApiLibrary.Api.ProductTags;
+using IkasAdminApiLibrary.Api.ProductTags.Abstracts;
 using IkasAdminApiLibrary.Api.SalesChannels;
 using IkasAdminApiLibrary.Api.SalesChannels.Abstracts;
 using IkasAdminApiLibrary.Api.StockLocations;
@@ -40,6 +42,7 @@ namespace IkasAdminApiLibrary
         private readonly Lazy<IVariantTypeManager> variantTypeManager;
         private readonly Lazy<IProductImageManager> productImageManager;
         private readonly Lazy<IProductAttributeManager> productAttributeManager;
+        private readonly Lazy<IProductTagManager> productTagManager;
         private readonly Lazy<IPriceListsManager> priceListsManager;
         private readonly Lazy<IVendorService> vendorManager;
 
@@ -58,6 +61,7 @@ namespace IkasAdminApiLibrary
             variantTypeManager = new Lazy<IVariantTypeManager>(() => new VariantTypeManager(graphQLService));
             productImageManager = new Lazy<IProductImageManager>(() => new ProductImageManager(this.config, httpRequest, authenticationManager));
             productAttributeManager = new Lazy<IProductAttributeManager>(() => new ProductAttributeManager(graphQLService));
+            productTagManager = new Lazy<IProductTagManager>(() => new ProductTagManager(graphQLService));
             priceListsManager = new Lazy<IPriceListsManager>(() => new PriceListsManager(graphQLService));
             vendorManager = new Lazy<IVendorService>(() => new VendorManager(graphQLService));
         }
@@ -72,7 +76,8 @@ namespace IkasAdminApiLibrary
         public IVariantTypeManager VariantTypeManager => variantTypeManager.Value;
         public IProductImageManager ProductImageManager => productImageManager.Value;
         public IProductAttributeManager ProductAttributeManager => productAttributeManager.Value;
+        public IProductTagManager ProductTagManager => productTagManager.Value;
         public IPriceListsManager PriceListsManager => priceListsManager.Value;
-        public IVendorService VendorManager => vendorManager.Value;
+        public IVendorService VendorManager => vendorManager.Value;      
     }
 }
