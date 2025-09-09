@@ -22,6 +22,8 @@ namespace IkasAdminApiLibrary.Api.Products.Models.Inputs
 
         public string? VendorId { get; set; }
 
+        public List<string>? TagIds { get; set; }
+
         public List<ProductVariantTypeInput>? ProductVariantTypes { get; set; }
 
         public List<VariantInput> Variants { get; set; }

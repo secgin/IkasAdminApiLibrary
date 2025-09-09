@@ -2,7 +2,7 @@
 
 [![NuGet](https://img.shields.io/nuget/v/IkasAdminApiLibrary.svg)](https://www.nuget.org/packages/IkasAdminApiLibrary)
 
-.NET ile [Ikas Admin API](https://ikas.com) üzerinden ürünlerinizi listeleyip yönetmenizi sağlayan basit bir istemci kütüphanedir.
+.NET ile [Ikas Admin API](https://ikas.com) Ã¼zerinden Ã¼rÃ¼nlerinizi listeleyip yÃ¶netmenizi saÄŸlayan basit bir istemci kÃ¼tÃ¼phanedir.
 
 ## Kurulum
 
@@ -10,7 +10,7 @@
 dotnet add package IkasAdminApiLibrary
 ```
 
-## Ürün Listeleme Örneği
+## ÃœrÃ¼n Listeleme Ã–rneÄŸi
 ```csharp
 var config = new Config([ClientId],[ClientSecret],[StoreName]);
 var ikasClient = new IkasClient(config);
@@ -19,7 +19,7 @@ async Task<Pagination<Product>> GetProducts()
 {
     var result = await ikasClient.ProductManager.List(new ListProductInput()
     {
-        Name = StringFilterInput.Equal("ÜRÜN ADI"),
+        Name = StringFilterInput.Equal("ÃœRÃœN ADI"),
         Pagination = new PaginationInput(1, 1)
     });
 
