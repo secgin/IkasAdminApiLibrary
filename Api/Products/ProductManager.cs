@@ -26,6 +26,7 @@ namespace IkasAdminApiLibrary.Api.Products
                     .AddField(p => p.Name)
                     .AddField(p => p.Type)
                     .AddField(p => p.CreatedAt)
+                    .AddField(p => p.Description)
                     .AddField(p => p.ProductVariantTypes!, v => v
                         .AddField(p => p.Order)
                         .AddField(p => p.VariantTypeId)
