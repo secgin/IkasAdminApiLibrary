@@ -23,6 +23,8 @@ using IkasAdminApiLibrary.Api.VariantTypes;
 using IkasAdminApiLibrary.Api.VariantTypes.Abstracts;
 using IkasAdminApiLibrary.Api.Vendors;
 using IkasAdminApiLibrary.Api.Vendors.Abstracts;
+using IkasAdminApiLibrary.Api.Webhooks;
+using IkasAdminApiLibrary.Api.Webhooks.Abstracts;
 using IkasAdminApiLibrary.Library.HttpRequest;
 using IkasAdminApiLibrary.Library.HttpRequest.Interfaces;
 
@@ -45,6 +47,7 @@ namespace IkasAdminApiLibrary
         private readonly Lazy<IProductTagManager> productTagManager;
         private readonly Lazy<IPriceListsManager> priceListsManager;
         private readonly Lazy<IVendorService> vendorManager;
+        private readonly Lazy<IWebhookManager> webhookManager;
 
         public IkasClient(IConfig config)
         {
@@ -64,6 +67,7 @@ namespace IkasAdminApiLibrary
             productTagManager = new Lazy<IProductTagManager>(() => new ProductTagManager(graphQLService));
             priceListsManager = new Lazy<IPriceListsManager>(() => new PriceListsManager(graphQLService));
             vendorManager = new Lazy<IVendorService>(() => new VendorManager(graphQLService));
+            webhookManager = new Lazy<IWebhookManager>(() => new WebhookManager(graphQLService));
         }
 
         private IGraphQLService graphQLService => new GraphQLService(this.config, httpRequest, authenticationManager);
@@ -78,6 +82,7 @@ namespace IkasAdminApiLibrary
         public IProductAttributeManager ProductAttributeManager => productAttributeManager.Value;
         public IProductTagManager ProductTagManager => productTagManager.Value;
         public IPriceListsManager PriceListsManager => priceListsManager.Value;
-        public IVendorService VendorManager => vendorManager.Value;      
+        public IVendorService VendorManager => vendorManager.Value;
+        public IWebhookManager WebhookManager => webhookManager.Value;
     }
 }

@@ -9,31 +9,34 @@ using IkasAdminApiLibrary.Api.SalesChannels.Abstracts;
 using IkasAdminApiLibrary.Api.StockLocations.Abstracts;
 using IkasAdminApiLibrary.Api.VariantTypes.Abstracts;
 using IkasAdminApiLibrary.Api.Vendors.Abstracts;
+using IkasAdminApiLibrary.Api.Webhooks.Abstracts;
 
 namespace IkasAdminApiLibrary.Abstracts
 {
     public interface IIkasClient
     {
-        public IProductManager ProductManager { get; }    
+        IProductManager ProductManager { get; }    
 
-        public IProductBrandManager ProductBrandManager { get; }
+        IProductBrandManager ProductBrandManager { get; }
 
-        public ICategoryManager CategoryManager { get; }    
+        ICategoryManager CategoryManager { get; }    
 
-        public ISalesChannelsManager SalesChannelsManager { get; }
+        ISalesChannelsManager SalesChannelsManager { get; }
 
-        public IStockLocationManager StockLcationManager { get; }
+        IStockLocationManager StockLcationManager { get; }
 
-        public IVariantTypeManager VariantTypeManager { get; }
+        IVariantTypeManager VariantTypeManager { get; }
 
-        public IProductImageManager ProductImageManager { get; }
+        IProductImageManager ProductImageManager { get; }
 
-        public IProductAttributeManager ProductAttributeManager { get; }
+        IProductAttributeManager ProductAttributeManager { get; }
 
-        public IProductTagManager ProductTagManager { get; }
+        IProductTagManager ProductTagManager { get; }
 
-        public IPriceListsManager PriceListsManager { get; }
+        IPriceListsManager PriceListsManager { get; }
 
-        public IVendorService VendorManager { get; }
+        IVendorService VendorManager { get; }
+
+        IWebhookManager WebhookManager { get; }
     }
 }
