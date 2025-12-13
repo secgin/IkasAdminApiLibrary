@@ -12,6 +12,8 @@ namespace IkasAdminApiLibrary.Api.Products.Models.Inputs
 
         public string? Description { get; set; }
 
+        public string? ShortDescription { get; set; }
+
         public ProductTypeEnum Type { get; set; }
 
         public List<string> SalesChannelIds { get; set; }
@@ -27,6 +29,8 @@ namespace IkasAdminApiLibrary.Api.Products.Models.Inputs
         public List<ProductVariantTypeInput>? ProductVariantTypes { get; set; }
 
         public List<VariantInput> Variants { get; set; }
+
+        public HTMLMetaDataInput? MetaData { get; set; } = null;
 
         public ProductInput(string name, ProductTypeEnum productType, List<VariantInput> variants, List<string> salesChannelIds)
         {
