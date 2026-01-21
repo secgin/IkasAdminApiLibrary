@@ -2,7 +2,12 @@ using IkasAdminApiLibrary.Abstracts;
 
 namespace IkasAdminApiLibrary
 {
-    public class Config(string clientId, string clientSecret, string storeName) : IConfig
+    public class Config(
+        string clientId,
+        string clientSecret,
+        string storeName,
+        string? tokenStoragePath = null,
+        TokenProtectionScope tokenProtectionScope = TokenProtectionScope.CurrentUser) : IConfig
     {
         public string GetClientId() => clientId;
 
@@ -15,5 +20,9 @@ namespace IkasAdminApiLibrary
         public string GetTokenServiceAddress() => "https://" + storeName + ".myikas.com/api/admin/oauth/token";
 
         public string GetProductImageServiceAddress() => "https://api.myikas.com/api/v1/admin/product/upload/image";
+
+        public string? GetTokenStoragePath() => tokenStoragePath;
+
+        public TokenProtectionScope GetTokenProtectionScope() => tokenProtectionScope;
     }
 }

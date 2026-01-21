@@ -6,12 +6,14 @@ namespace IkasAdminApiLibrary.Api.ProductBrands.Abstracts
 {
     public interface IProductBrandManager
     {
-        public Task<IResult<ProductBrand>> Save(ProductBrandInput productBrandInput);
+        Task<IResult<ProductBrand>> Save(ProductBrandInput productBrandInput);
 
-        public Task<IResult<ProductBrand>> SaveByName(string name);
+        Task<IResult<ProductBrand>> SaveByName(string name);
 
-        public Task<IResult<List<ProductBrand>>> List(ListProductBrandInput? input = null);
+        Task<IResult<List<ProductBrand>>> List(ListProductBrandInput? input = null);
 
-        public Task<IResult<ProductBrand?>> GetByName(string name);
+        Task<IResult<ProductBrand?>> GetByName(string name);
+
+        Task<IResult<bool>> Delete(DeleteProductBrandList input);
     }
 }

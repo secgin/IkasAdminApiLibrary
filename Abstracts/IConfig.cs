@@ -13,5 +13,9 @@ namespace IkasAdminApiLibrary.Abstracts
         public string GetClientSecret();
 
         public string GetStoreName();
+
+        public string? GetTokenStoragePath() => null;
+
+        public TokenProtectionScope GetTokenProtectionScope() => TokenProtectionScope.CurrentUser;
     }
 }

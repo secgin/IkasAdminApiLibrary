@@ -7,7 +7,7 @@
 
     <!-- NuGet Metadata -->
     <PackageId>IkasAdminApiLibrary</PackageId>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
     <!-- Her yeni yayın için artır -->
     <Authors>Seçgin</Authors>
     <Company>Seçgin</Company>
@@ -28,6 +28,7 @@
   <ItemGroup>
     <PackageReference Include="GraphQL.Query.Builder" Version="2.2.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

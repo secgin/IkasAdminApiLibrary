@@ -53,7 +53,7 @@ namespace IkasAdminApiLibrary
         {
             this.config = config;
             httpRequest = new HttpRequest();
-            tokenStorageManager = new TokenStorageManager();
+            tokenStorageManager = new TokenStorageManager(this.config);
             authenticationManager = new AuthenticationManager(this.config, tokenStorageManager, httpRequest);
 
             productBrandManager = new Lazy<IProductBrandManager>(() => new ProductBrandManager(graphQLService));

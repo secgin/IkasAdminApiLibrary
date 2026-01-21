@@ -15,6 +15,17 @@ namespace IkasAdminApiLibrary.Api.ProductBrands
             this.graphQLService = graphQLService;
         }
 
+        public async Task<IResult<bool>> Delete(DeleteProductBrandList input)
+        {
+            var query = graphQLService.CreateQuery<bool>("deleteProductBrandList")
+                .AddArguments(new
+                {
+                    idList = input.IdList
+                });
+
+            return await graphQLService.MutationQueryAsync<bool>(query, "deleteProductBrandList");
+        }
+
         public async Task<IResult<ProductBrand?>> GetByName(string name)
         {
             var result = await List(new ListProductBrandInput
