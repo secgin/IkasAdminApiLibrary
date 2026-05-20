@@ -2,6 +2,8 @@ namespace IkasAdminApiLibrary.Api.Products.Models.Inputs
 {
     public class VariantInput(bool isActive, List<ProductPriceInput> prices)
     {
+        public string? Id { get; set; }
+
         public List<ProductAttributeValueInput>? Attributes { get; set; }
 
         public List<string>? BarcodeList { get; set; }
