@@ -35,7 +35,7 @@ git tag v2.0.0
 git push origin v2.0.0
 ```
 
-Tag, 3 parcali SemVer formatinda olmalidir: `v2.0.0`, `v2.0.1`, `v2.0.0-beta.1`. `v2.0.0.0-beta` gibi 4 parcali surum kullanilmaz.
+Tag, 3 parcali SemVer formatinda olmalidir: `v2.0.0`, `v2.0.1`, `v2.0.0-beta.1`. `v2.0.0.0-beta` veya `v2.0.0.-beta.1` gibi 4 parcali ya da fazladan nokta iceren surumler kullanilmaz.
 
 Lokal paket almak icin:
 
