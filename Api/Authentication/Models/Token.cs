@@ -8,7 +8,9 @@ namespace IkasAdminApiLibrary.Api.Authentication.Models
 
         public string TokenType { get; set; }
 
-        public int ExpiresIn { get; set; }
+        public int? ExpiresIn { get; set; }
+
+        public string? RefreshToken { get; set; }
 
         public Token()
         {

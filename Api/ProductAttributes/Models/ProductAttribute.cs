@@ -10,7 +10,7 @@ namespace IkasAdminApiLibrary.Api.ProductAttributes.Models
 
         public string? Description { get; set; }
 
-        public ProductAttributeTypeEnum Type { get; set; }
+        public ProductAttributeTypeEnum? Type { get; set; }
 
         public ProductAttribute()
         {

@@ -7,6 +7,38 @@ namespace IkasAdminApiLibrary.Api.PriceLists
 {
     internal class PriceListsManager : IPriceListsManager
     {
+        private const string ListPriceListQuery = """
+            query ListPriceList {
+              listPriceList {
+                addProductsAutomatically
+                createdAt
+                currency
+                currencyCode
+                currencySymbol
+                deleted
+                id
+                name
+                ruleList {
+                  basePriceListId
+                  currencyRateSettings {
+                    amount
+                    type
+                  }
+                  currencySettings {
+                    roundingFormat
+                  }
+                  rules {
+                    amount
+                    amountType
+                    operationType
+                  }
+                }
+                type
+                updatedAt
+              }
+            }
+            """;
+
         private readonly IGraphQLService graphQLService;
 
         public PriceListsManager(IGraphQLService graphQLService)
@@ -16,27 +48,7 @@ namespace IkasAdminApiLibrary.Api.PriceLists
 
         public async Task<IResult<List<PriceList>>> GetAllAsync(ListPriceList? listPriceList = null)
         {
-            var query = graphQLService.CreateQuery<PriceList>("listPriceList")
-                .AddArguments(listPriceList ?? new ListPriceList())
-                .AddField(p => p.Id)
-                .AddField(p => p.Currency)
-                .AddField(p => p.CurrencyCode)
-                .AddField(p => p.CurrencySymbol)
-                .AddField(p => p.Name)
-                .AddField(p => p.Type)
-                .AddField(p => p.RuleList, prl => prl
-                    .AddField(p => p.BasePriceListId)
-                    .AddField<PriceListCurrencyRateSettings?>(p => p.CurrencyRateSettings, crs => crs
-                        .AddField(p => p!.Amount)
-                        .AddField(p => p!.Type))
-                    .AddField(p => p.CurrencySettings, cs => cs
-                        .AddField(p => p.RoundingFormat))
-                    .AddField(p => p.Rules, plr => plr
-                        .AddField(p => p.Amount)
-                        .AddField(p => p.AmountType)
-                        .AddField(p => p.OperationType)));
-
-            return await graphQLService.QueryAsync<List<PriceList>>(query, "listPriceList");
+            return await graphQLService.QueryAsync<List<PriceList>>(ListPriceListQuery, null, "listPriceList");
         }
     }
 }

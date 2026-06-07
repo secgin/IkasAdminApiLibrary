@@ -4,6 +4,6 @@ namespace IkasAdminApiLibrary.Api.PriceLists.Models
     {
         public double? Amount { get; set; }
 
-        public PriceListCurrencyRateTypeEnum Type { get; set; }
+        public PriceListCurrencyRateTypeEnum? Type { get; set; }
     }
 }

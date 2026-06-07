@@ -6,7 +6,7 @@ namespace IkasAdminApiLibrary.Api.ProductBrands.Models
 
         public string Name { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public ProductBrand()
         {

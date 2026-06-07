@@ -5,20 +5,34 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+    <!-- NuGet Versioning -->
+    <MajorVersion>2</MajorVersion>
+    <MinorVersion>0</MinorVersion>
+    <PatchVersion>0</PatchVersion>
+    <VersionPrefix>$(MajorVersion).$(MinorVersion).$(PatchVersion)</VersionPrefix>
+    <PackageVersion Condition="'$(VersionSuffix)' == ''">$(VersionPrefix)</PackageVersion>
+    <PackageVersion Condition="'$(VersionSuffix)' != ''">$(VersionPrefix)-$(VersionSuffix)</PackageVersion>
+    <Version>$(PackageVersion)</Version>
+    <AssemblyVersion>$(MajorVersion).0.0.0</AssemblyVersion>
+    <FileVersion>$(MajorVersion).$(MinorVersion).$(PatchVersion).0</FileVersion>
+    <InformationalVersion>$(PackageVersion)</InformationalVersion>
+
     <!-- NuGet Metadata -->
     <PackageId>IkasAdminApiLibrary</PackageId>
-    <Version>1.0.9</Version>
-    <!-- Her yeni yayın için artır -->
+    <Title>IkasAdminApiLibrary</Title>
     <Authors>Seçgin</Authors>
     <Company>Seçgin</Company>
-    <Description>IKAS Admin API için .NET kütüphanesi.</Description>
-    <PackageTags>ikas;admin;api</PackageTags>
+    <Description>ikas Admin API v2 için .NET istemci kütüphanesi.</Description>
+    <PackageTags>ikas;admin;api;v2;graphql</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/secgin/IkasAdminApiLibrary</PackageProjectUrl>
     <RepositoryUrl>https://github.com/secgin/IkasAdminApiLibrary</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReleaseNotes>Ikas Admin API v2 endpoint ve model uyumluluğu.</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

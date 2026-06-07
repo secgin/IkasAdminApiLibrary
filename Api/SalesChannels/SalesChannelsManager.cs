@@ -7,6 +7,28 @@ namespace IkasAdminApiLibrary.Api.SalesChannels
 {
     internal class SalesChannelsManager : ISalesChannelsManager
     {
+        private const string ListSalesChannelQuery = """
+            query ListSalesChannel {
+              listSalesChannel {
+                createdAt
+                deleted
+                id
+                name
+                paymentGateways {
+                  id
+                  order
+                }
+                priceListId
+                stockLocations {
+                  id
+                  order
+                }
+                type
+                updatedAt
+              }
+            }
+            """;
+
         private readonly IGraphQLService graphQLService;
 
         public SalesChannelsManager(IGraphQLService graphQLService)
@@ -16,22 +38,20 @@ namespace IkasAdminApiLibrary.Api.SalesChannels
 
         public async Task<IResult<SalesChannel>> Get()
         {
-            var query = graphQLService.CreateQuery<SalesChannel>("getSalesChannel")
-                .AddField(p => p.Id)
-                .AddField(p => p.Name)
-                .AddField(p => p.Type);
+            var result = await List();
 
-            return await graphQLService.QueryAsync<SalesChannel>(query, "getSalesChannel");
+            if (result.IsFail())
+                return Result<SalesChannel>.Fail(result.GetCode(), result.GetMessage());
+
+            var salesChannel = result.Data.FirstOrDefault();
+            return salesChannel == null
+                ? Result<SalesChannel>.Fail(null, "Sales channel not found")
+                : Result<SalesChannel>.Success(salesChannel);
         }
 
         public async Task<IResult<List<SalesChannel>>> List(ListSalesChannelInput? input = null)
         {
-            var query = graphQLService.CreateQuery<SalesChannel>("listSalesChannel")
-                .AddField(p => p.Id)
-                .AddField(p => p.Name)
-                .AddField(p => p.Type);
-
-            return await graphQLService.QueryAsync<List<SalesChannel>>(query, "listSalesChannel");
+            return await graphQLService.QueryAsync<List<SalesChannel>>(ListSalesChannelQuery, null, "listSalesChannel");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace IkasAdminApiLibrary.Api.VariantTypes.Models
 
         public string Name { get; set; }
 
-        public VariantSelectionTypeEnum SelectionType { get; set; }
+        public VariantSelectionTypeEnum? SelectionType { get; set; }
 
         public List<VariantValue> Values { get; set; }
 

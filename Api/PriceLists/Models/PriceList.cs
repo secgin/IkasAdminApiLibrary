@@ -8,15 +8,21 @@ namespace IkasAdminApiLibrary.Api.PriceLists.Models
 
         public string Currency { get; set; }
 
+        public DateTime? CreatedAt { get; set; }
+
         public string? CurrencyCode { get; set; }
 
         public string? CurrencySymbol { get; set; }
+
+        public bool? Deleted { get; set; }
 
         public string Name { get; set; }
 
         public List<PriceListRuleList> RuleList { get; set; }
 
-        public PriceListTypeEnum Type { get; set; }
+        public PriceListTypeEnum? Type { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
 
         public PriceList()
         {

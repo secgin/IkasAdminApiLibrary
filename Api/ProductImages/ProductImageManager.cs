@@ -30,10 +30,12 @@ namespace IkasAdminApiLibrary.Api.ProductImages
             {
                 productImage = new
                 {
+                    productId = uploadProductImageInput.ProductId,
                     variantIds = uploadProductImageInput.VariantIds,
                     order = uploadProductImageInput.Order,
                     isMain = uploadProductImageInput.IsMain,
-                    url = uploadProductImageInput.Url
+                    url = uploadProductImageInput.Url,
+                    base64 = uploadProductImageInput.Base64
                 }
             };
 

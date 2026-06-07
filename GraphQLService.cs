@@ -5,16 +5,32 @@ using IkasAdminApiLibrary.Library.HttpRequest;
 using IkasAdminApiLibrary.Library.HttpRequest.Interfaces;
 using IkasAdminApiLibrary.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System.Text;
+using UnixDateTimeConverter = IkasAdminApiLibrary.Utils.UnixDateTimeConverter;
 
 namespace IkasAdminApiLibrary
 {
     internal class GraphQLService(
-        IConfig config, 
-        IHttpRequest httpRequest, 
+        IConfig config,
+        IHttpRequest httpRequest,
         IAuthenticationManager authenticationManager) : IGraphQLService
     {
+        private static readonly JsonSerializer DataSerializer = new()
+        {
+            DateParseHandling = DateParseHandling.None,
+            Converters = { new UnixDateTimeConverter() }
+        };
+
+        private static readonly JsonSerializerSettings PayloadSerializerSettings = new()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            NullValueHandling = NullValueHandling.Ignore,
+            Converters = { new StringEnumConverter() }
+        };
+
         public IQuery<T> CreateQuery<T>(string name)
         {
             return new Query<T>(name, new QueryOptions
@@ -36,6 +52,19 @@ namespace IkasAdminApiLibrary
             return result;
         }
 
+        public async Task<IResult<T>> MutationQueryAsync<T>(string query, object? variables, string path)
+        {
+            var result = await postAsync<T>(query, variables, path);
+
+            if (result.GetCode() == "LOGIN_REQUIRED")
+            {
+                _ = await authenticationManager.GetAccessToken();
+                result = await postAsync<T>(query, variables, path);
+            }
+
+            return result;
+        }
+
         public async Task<IResult<T>> QueryAsync<T>(IQuery query, string path)
         {
             var result = await postAsync<T>(query, path);
@@ -49,21 +78,52 @@ namespace IkasAdminApiLibrary
             return result;
         }
 
+        public async Task<IResult<T>> QueryAsync<T>(string query, object? variables, string path)
+        {
+            var result = await postAsync<T>(query, variables, path);
+
+            if (result.GetCode() == "LOGIN_REQUIRED")
+            {
+                await authenticationManager.GetAccessToken();
+                result = await postAsync<T>(query, variables, path);
+            }
+
+            return result;
+        }
+
         protected async Task<IResult<T>> postAsync<T>(IQuery query, string path, bool mutable = false)
         {
             var payload = new
             {
                 query = mutable ? "mutation { " + query.Build() + " }" : "{ " + query.Build() + " }"
             };
-            string strPayload = JsonConvert.SerializeObject(payload);
+
+            return await postPayloadAsync<T>(payload, path, new JsonSerializerSettings());
+        }
+
+        protected async Task<IResult<T>> postAsync<T>(string query, object? variables, string path)
+        {
+            Dictionary<string, object?> payload = new()
+            {
+                ["query"] = query
+            };
+
+            if (variables != null)
+                payload["variables"] = variables;
+
+            return await postPayloadAsync<T>(payload, path, PayloadSerializerSettings);
+        }
+
+        private async Task<IResult<T>> postPayloadAsync<T>(object payload, string path, JsonSerializerSettings serializerSettings)
+        {
+            string strPayload = JsonConvert.SerializeObject(payload, serializerSettings);
             HttpContent httpContent = new StringContent(strPayload, Encoding.UTF8, "application/json");
 
             List<IHttpHeader> headers = [];
             if (authenticationManager.Token != null)
                 headers.Add(new HttpHeader(
                     "Authorization",
-                    authenticationManager.Token.TokenType + " " + authenticationManager.Token.AccessToken
-                    ));
+                    authenticationManager.Token.TokenType + " " + authenticationManager.Token.AccessToken));
 
             IHttpResult httpResult = await httpRequest.PostAsync(config.GetServiceAddress(), headers, httpContent);
             var content = httpResult.GetContent() ?? "";
@@ -82,7 +142,6 @@ namespace IkasAdminApiLibrary
             if (!response.IsSuccess())
                 return Result<T>.Fail(response.GetCode(), response.GetMessage());
 
-
             var jsonObject = JObject.Parse(content);
             var data = string.IsNullOrWhiteSpace(path)
                 ? jsonObject["data"]
@@ -90,13 +149,9 @@ namespace IkasAdminApiLibrary
 
             if (data != null)
             {
-               try
+                try
                 {
-                    var model = data.ToObject<T>(new JsonSerializer
-                    {
-                        DateParseHandling = DateParseHandling.None,
-                        Converters = { new UnixDateTimeConverter() }
-                    });
+                    var model = data.ToObject<T>(DataSerializer);
                     if (model == null)
                         return Result<T>.Fail();
 

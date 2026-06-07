@@ -4,11 +4,15 @@ namespace IkasAdminApiLibrary.Api.ProductImages.Models.Inputs
     {
         public List<string> VariantIds { get; set; }
 
+        public string? ProductId { get; set; }
+
         public int? Order { get; set; }
 
         public bool IsMain { get; set; }
 
-        public string Url { get; set; }
+        public string? Url { get; set; }
+
+        public string? Base64 { get; set; }
 
         public UploadProductImageInput(List<string> variantIds, int? order, bool isMain, string url)
         {

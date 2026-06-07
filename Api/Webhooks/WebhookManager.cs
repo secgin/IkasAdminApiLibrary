@@ -1,4 +1,4 @@
-﻿using IkasAdminApiLibrary.Abstracts;
+using IkasAdminApiLibrary.Abstracts;
 using IkasAdminApiLibrary.Api.Webhooks.Abstracts;
 using IkasAdminApiLibrary.Api.Webhooks.Models;
 using IkasAdminApiLibrary.Api.Webhooks.Models.Inputs;
@@ -7,6 +7,32 @@ namespace IkasAdminApiLibrary.Api.Webhooks
 {
     internal class WebhookManager : IWebhookManager
     {
+        private const string ListWebhookQuery = """
+            query ListWebhook {
+              listWebhook {
+                createdAt
+                deleted
+                endpoint
+                id
+                scope
+                updatedAt
+              }
+            }
+            """;
+
+        private const string SaveWebhooksMutation = """
+            mutation SaveWebhooks($input: WebhookInput!) {
+              saveWebhooks(input: $input) {
+                createdAt
+                deleted
+                endpoint
+                id
+                scope
+                updatedAt
+              }
+            }
+            """;
+
         private readonly IGraphQLService graphQLService;
 
         public WebhookManager(IGraphQLService graphQLService)
@@ -16,26 +42,15 @@ namespace IkasAdminApiLibrary.Api.Webhooks
 
         public async Task<IResult<List<Webhook>>> ListAsync()
         {
-            var query = graphQLService.CreateQuery<Webhook>("listWebhook")
-              .AddField(p => p.Id)
-              .AddField(p => p.Endpoint)
-              .AddField(p => p.Scope);
-
-            return await graphQLService.QueryAsync<List<Webhook>>(query, "listWebhook");
+            return await graphQLService.QueryAsync<List<Webhook>>(ListWebhookQuery, null, "listWebhook");
         }
 
         public async Task<IResult<List<Webhook>>> SaveAsync(WebhookInput input)
         {
-            var query = graphQLService.CreateQuery<Webhook>("saveWebhook")
-               .AddArguments(new
-               {
-                   input
-               })
-               .AddField(p => p.Id)
-               .AddField(p => p.Endpoint)
-               .AddField(p => p.Scope);
-
-            return await graphQLService.MutationQueryAsync<List<Webhook>>(query, "saveWebhook");
+            return await graphQLService.MutationQueryAsync<List<Webhook>>(
+                SaveWebhooksMutation,
+                new { input },
+                "saveWebhooks");
         }
 
         public async Task<IResult<bool>> DeleteAsync(List<string> scopes)

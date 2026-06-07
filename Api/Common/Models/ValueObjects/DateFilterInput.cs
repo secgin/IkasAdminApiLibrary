@@ -12,18 +12,34 @@ namespace IkasAdminApiLibrary.Api.Common.Models.ValueObjects
 
         public IReadOnlyList<string>? Nin { get; }
 
+        public long? Gt { get; }
+
+        public long? Gte { get; }
+
+        public long? Lt { get; }
+
+        public long? Lte { get; }
+
         private DateFilterInput(
             string? equal = null,
             IEnumerable<string>? included = null,
             string? like = null,
             string? notEqual = null,
-            IEnumerable<string>? notIncluded = null)
+            IEnumerable<string>? notIncluded = null,
+            long? greaterThan = null,
+            long? greaterThanOrEqual = null,
+            long? lessThan = null,
+            long? lessThanOrEqual = null)
         {
             Eq = equal;
             In = included?.ToList().AsReadOnly();
             Like = like;
             Ne = notEqual;
             Nin = notIncluded?.ToList().AsReadOnly();
+            Gt = greaterThan;
+            Gte = greaterThanOrEqual;
+            Lt = lessThan;
+            Lte = lessThanOrEqual;
         }
 
         public static DateFilterInput Equal(string value)
@@ -49,6 +65,26 @@ namespace IkasAdminApiLibrary.Api.Common.Models.ValueObjects
         public static DateFilterInput NotIncluded(IEnumerable<string> values)
         {
             return new DateFilterInput(notIncluded: values);
+        }
+
+        public static DateFilterInput GreaterThan(long value)
+        {
+            return new DateFilterInput(greaterThan: value);
+        }
+
+        public static DateFilterInput GreaterThanOrEqual(long value)
+        {
+            return new DateFilterInput(greaterThanOrEqual: value);
+        }
+
+        public static DateFilterInput LessThan(long value)
+        {
+            return new DateFilterInput(lessThan: value);
+        }
+
+        public static DateFilterInput LessThanOrEqual(long value)
+        {
+            return new DateFilterInput(lessThanOrEqual: value);
         }
 
         public override string ToString()
@@ -81,6 +117,18 @@ namespace IkasAdminApiLibrary.Api.Common.Models.ValueObjects
                 var ninValues = string.Join(", ", Nin.Select(value => $"\"{value}\""));
                 filters.Add($"nin: [{ninValues}]");
             }
+
+            if (Gt != null)
+                filters.Add($"gt: {Gt}");
+
+            if (Gte != null)
+                filters.Add($"gte: {Gte}");
+
+            if (Lt != null)
+                filters.Add($"lt: {Lt}");
+
+            if (Lte != null)
+                filters.Add($"lte: {Lte}");
 
             return $"{{ {string.Join(", ", filters)} }}";
         }

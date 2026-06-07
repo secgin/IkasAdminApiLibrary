@@ -14,7 +14,7 @@ namespace IkasAdminApiLibrary.Api.Products.Models
 
         public string? PriceListId { get; set; }
 
-        public float SellPrice { get; set; }
+        public float? SellPrice { get; set; }
 
         public ProductPrice()
         {

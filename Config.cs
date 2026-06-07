@@ -15,11 +15,11 @@ namespace IkasAdminApiLibrary
 
         public string GetStoreName() => storeName;
 
-        public string GetServiceAddress() => "https://api.myikas.com/api/v1/admin/graphql";
+        public string GetServiceAddress() => "https://api.myikas.com/api/v2/admin/graphql";
 
-        public string GetTokenServiceAddress() => "https://" + storeName + ".myikas.com/api/admin/oauth/token";
+        public string GetTokenServiceAddress() => "https://api.myikas.com/api/admin/oauth/token";
 
-        public string GetProductImageServiceAddress() => "https://api.myikas.com/api/v1/admin/product/upload/image";
+        public string GetProductImageServiceAddress() => "https://api.myikas.com/api/v2/admin/upload/image";
 
         public string? GetTokenStoragePath() => tokenStoragePath;
 

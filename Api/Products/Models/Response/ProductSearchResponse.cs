@@ -4,15 +4,15 @@ namespace IkasAdminApiLibrary.Api.Products.Models.Response
 {
     public class ProductSearchResponse
     {
-        public float Count { get; set; }
+        public float? Count { get; set; }
 
-        public float Limit { get; set; }
+        public float? Limit { get; set; }
 
-        public float Page { get; set; }
+        public float? Page { get; set; }
 
         public List<SearchProduct> Results { get; set; }
 
-        public float TotalCount { get; set; }
+        public float? TotalCount { get; set; }
 
         public ProductSearchResponse()
         {

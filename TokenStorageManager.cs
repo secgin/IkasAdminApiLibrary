@@ -29,6 +29,7 @@ namespace IkasAdminApiLibrary
                 existingToken.AccessToken = token.AccessToken;
                 existingToken.TokenType = token.TokenType;
                 existingToken.ExpiresIn = token.ExpiresIn;
+                existingToken.RefreshToken = token.RefreshToken;
             }
             else
                 tokens.Add(token);

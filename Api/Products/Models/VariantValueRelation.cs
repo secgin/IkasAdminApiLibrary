@@ -6,6 +6,10 @@ namespace IkasAdminApiLibrary.Api.Products.Models
 
         public string VariantValueId { get; set; }
 
+        public string? VariantTypeName { get; set; }
+
+        public string? VariantValueName { get; set; }
+
         public VariantValueRelation()
         {
             VariantTypeId = string.Empty;

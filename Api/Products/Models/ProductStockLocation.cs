@@ -4,13 +4,19 @@ namespace IkasAdminApiLibrary.Api.Products.Models
     {
         public string? Id { get; set; }
 
+        public DateTime? CreatedAt { get; set; }
+
+        public bool? Deleted { get; set; }
+
         public string ProductId { get; set; }
 
-        public float StockCount { get; set; }
+        public float? StockCount { get; set; }
 
         public string StockLocationId { get; set; }
 
         public string VariantId { get; set; }
+
+        public DateTime? UpdatedAt { get; set; }
 
         public ProductStockLocation()
         {

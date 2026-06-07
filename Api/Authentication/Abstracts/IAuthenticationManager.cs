@@ -7,5 +7,7 @@ namespace IkasAdminApiLibrary.Api.Authentication.Abstracts
         public Token? Token { get; }
 
         public Task<Token?> GetAccessToken();
+
+        public Task<Token?> RefreshAccessToken(string refreshToken);
     }
 }

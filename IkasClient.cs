@@ -3,6 +3,12 @@ using IkasAdminApiLibrary.Api.Authentication;
 using IkasAdminApiLibrary.Api.Authentication.Abstracts;
 using IkasAdminApiLibrary.Api.Categories;
 using IkasAdminApiLibrary.Api.Categories.Abstracts;
+using IkasAdminApiLibrary.Api.Customers;
+using IkasAdminApiLibrary.Api.Customers.Abstracts;
+using IkasAdminApiLibrary.Api.Merchants;
+using IkasAdminApiLibrary.Api.Merchants.Abstracts;
+using IkasAdminApiLibrary.Api.Orders;
+using IkasAdminApiLibrary.Api.Orders.Abstracts;
 using IkasAdminApiLibrary.Api.PriceLists;
 using IkasAdminApiLibrary.Api.PriceLists.Abstracts;
 using IkasAdminApiLibrary.Api.ProductAttributes;
@@ -19,6 +25,10 @@ using IkasAdminApiLibrary.Api.SalesChannels;
 using IkasAdminApiLibrary.Api.SalesChannels.Abstracts;
 using IkasAdminApiLibrary.Api.StockLocations;
 using IkasAdminApiLibrary.Api.StockLocations.Abstracts;
+using IkasAdminApiLibrary.Api.Storefronts;
+using IkasAdminApiLibrary.Api.Storefronts.Abstracts;
+using IkasAdminApiLibrary.Api.Timeline;
+using IkasAdminApiLibrary.Api.Timeline.Abstracts;
 using IkasAdminApiLibrary.Api.VariantTypes;
 using IkasAdminApiLibrary.Api.VariantTypes.Abstracts;
 using IkasAdminApiLibrary.Api.Vendors;
@@ -48,6 +58,11 @@ namespace IkasAdminApiLibrary
         private readonly Lazy<IPriceListsManager> priceListsManager;
         private readonly Lazy<IVendorService> vendorManager;
         private readonly Lazy<IWebhookManager> webhookManager;
+        private readonly Lazy<IOrderManager> orderManager;
+        private readonly Lazy<ICustomerManager> customerManager;
+        private readonly Lazy<IMerchantManager> merchantManager;
+        private readonly Lazy<ITimelineManager> timelineManager;
+        private readonly Lazy<IStorefrontManager> storefrontManager;
 
         public IkasClient(IConfig config)
         {
@@ -68,6 +83,11 @@ namespace IkasAdminApiLibrary
             priceListsManager = new Lazy<IPriceListsManager>(() => new PriceListsManager(graphQLService));
             vendorManager = new Lazy<IVendorService>(() => new VendorManager(graphQLService));
             webhookManager = new Lazy<IWebhookManager>(() => new WebhookManager(graphQLService));
+            orderManager = new Lazy<IOrderManager>(() => new OrderManager(graphQLService));
+            customerManager = new Lazy<ICustomerManager>(() => new CustomerManager(graphQLService));
+            merchantManager = new Lazy<IMerchantManager>(() => new MerchantManager(graphQLService));
+            timelineManager = new Lazy<ITimelineManager>(() => new TimelineManager(graphQLService));
+            storefrontManager = new Lazy<IStorefrontManager>(() => new StorefrontManager(graphQLService));
         }
 
         private IGraphQLService graphQLService => new GraphQLService(this.config, httpRequest, authenticationManager);
@@ -84,5 +104,10 @@ namespace IkasAdminApiLibrary
         public IPriceListsManager PriceListsManager => priceListsManager.Value;
         public IVendorService VendorManager => vendorManager.Value;
         public IWebhookManager WebhookManager => webhookManager.Value;
+        public IOrderManager OrderManager => orderManager.Value;
+        public ICustomerManager CustomerManager => customerManager.Value;
+        public IMerchantManager MerchantManager => merchantManager.Value;
+        public ITimelineManager TimelineManager => timelineManager.Value;
+        public IStorefrontManager StorefrontManager => storefrontManager.Value;
     }
 }

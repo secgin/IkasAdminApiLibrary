@@ -6,7 +6,7 @@ namespace IkasAdminApiLibrary.Api.StockLocations.Models
 
         public string ProductId { get; set; }
 
-        public float StockCount { get; set; }
+        public float? StockCount { get; set; }
 
         public string StockLocationId { get; set; }
 

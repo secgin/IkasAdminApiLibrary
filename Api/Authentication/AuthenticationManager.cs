@@ -40,7 +40,40 @@ namespace IkasAdminApiLibrary.Api.Authentication
                     Key = _config.GetStoreName(),
                     AccessToken = result.access_token,
                     TokenType = result.token_type,
-                    ExpiresIn = result.expires_in
+                    ExpiresIn = result.expires_in,
+                    RefreshToken = result.refresh_token
+                };
+                _tokenStorageManager.Save(token);
+                return token;
+            }
+
+            return null;
+        }
+
+        public async Task<Token?> RefreshAccessToken(string refreshToken)
+        {
+            var parameters = new Dictionary<string, string>
+            {
+                { "grant_type", "refresh_token" },
+                { "refresh_token", refreshToken },
+                { "client_id", _config.GetClientId() },
+                { "client_secret", _config.GetClientSecret() }
+            };
+            var content = new FormUrlEncodedContent(parameters);
+
+            var httpResult = await _httpRequest.PostAsync(_config.GetTokenServiceAddress(), null, content);
+
+            var result = JsonConvert.DeserializeObject<dynamic>(httpResult.GetContent() ?? "");
+
+            if (result != null)
+            {
+                var token = new Token
+                {
+                    Key = _config.GetStoreName(),
+                    AccessToken = result.access_token,
+                    TokenType = result.token_type,
+                    ExpiresIn = result.expires_in,
+                    RefreshToken = result.refresh_token
                 };
                 _tokenStorageManager.Save(token);
                 return token;

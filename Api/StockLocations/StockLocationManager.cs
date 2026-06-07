@@ -8,6 +8,54 @@ namespace IkasAdminApiLibrary.Api.StockLocations
 {
     internal class StockLocationManager : IStockLocationManager
     {
+        private const string ListStockLocationQuery = """
+            query ListStockLocation {
+              listStockLocation {
+                address {
+                  address
+                  city {
+                    code
+                    id
+                    name
+                  }
+                  country {
+                    code
+                    id
+                    iso2
+                    iso3
+                    name
+                  }
+                  district {
+                    code
+                    id
+                    name
+                  }
+                  phone
+                  postalCode
+                  state {
+                    code
+                    id
+                    name
+                  }
+                }
+                createdAt
+                deleted
+                deliveryTime
+                description
+                id
+                isRemindOutOfStockEnabled
+                name
+                outOfStockMailList
+                translations {
+                  description
+                  locale
+                }
+                type
+                updatedAt
+              }
+            }
+            """;
+
         private readonly IGraphQLService graphQLService;
 
         public StockLocationManager(IGraphQLService graphQLService)
@@ -35,13 +83,7 @@ namespace IkasAdminApiLibrary.Api.StockLocations
 
         public async Task<IResult<List<StokLocation>>> ListStockLocations(ListStockLocationInput? input = null)
         {
-            var query = graphQLService.CreateQuery<StokLocation>("listStockLocation")
-                .AddArguments(input ?? new ListStockLocationInput())
-                .AddField(p => p.Id)
-                .AddField(p => p.Name)
-                .AddField(p => p.Type);
-
-            return await graphQLService.QueryAsync<List<StokLocation>>(query, "listStockLocation");
+            return await graphQLService.QueryAsync<List<StokLocation>>(ListStockLocationQuery, null, "listStockLocation");
         }
 
         public async Task<IResult<bool>> SaveProductStockLocations(SaveStockLocationsInput input)

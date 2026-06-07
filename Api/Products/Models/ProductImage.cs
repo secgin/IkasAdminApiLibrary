@@ -6,11 +6,11 @@ namespace IkasAdminApiLibrary.Api.Products.Models
 
         public string? ImageId { get; set; }
 
-        public bool IsMain { get; set; }
+        public bool? IsMain { get; set; }
 
-        public bool IsVideo { get; set; }
+        public bool? IsVideo { get; set; }
 
-        public float Order { get; set; }
+        public float? Order { get; set; }
 
         public ProductImage()
         {
