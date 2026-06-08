@@ -9,6 +9,32 @@ namespace IkasAdminApiLibrary.Api.Products
 {
     internal class ProductManager : IProductManager
     {
+        private const string AddVariantToProductServiceAddress = "https://api.myikas.com/api/v2/admin/graphql";
+
+        private const string AddVariantToProductMutation = """
+            mutation AddVariantToProduct($input: AddVariantToProductInput!) {
+              addVariantToProduct(input: $input) {
+                id
+                name
+                type
+                variants {
+                  id
+                  sku
+                  isActive
+                  prices {
+                    sellPrice
+                    buyPrice
+                    discountPrice
+                    currency
+                    currencyCode
+                    currencySymbol
+                    priceListId
+                  }
+                }
+              }
+            }
+            """;
+
         private readonly IGraphQLService graphQLService;
 
         public ProductManager(IGraphQLService graphQLService)
@@ -134,6 +160,15 @@ namespace IkasAdminApiLibrary.Api.Products
                     .AddField(p => p.SalesChannelIds);
 
             return await graphQLService.MutationQueryAsync<Product>(query, "saveProduct");
+        }
+
+        public async Task<IResult<Product>> AddVariant(AddVariantToProductInput input)
+        {
+            return await graphQLService.MutationQueryAsync<Product>(
+                AddVariantToProductMutation,
+                new { input },
+                "addVariantToProduct",
+                AddVariantToProductServiceAddress);
         }
 
         public async Task<IResult<bool>> SaveVariantPrices(SaveVariantPricesInput saveVariantPricesInput)

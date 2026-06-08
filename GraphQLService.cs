@@ -5,8 +5,11 @@ using IkasAdminApiLibrary.Library.HttpRequest;
 using IkasAdminApiLibrary.Library.HttpRequest.Interfaces;
 using IkasAdminApiLibrary.Utils;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System.Text;
+using IkasUnixDateTimeConverter = IkasAdminApiLibrary.Utils.UnixDateTimeConverter;
 
 namespace IkasAdminApiLibrary
 {
@@ -15,6 +18,13 @@ namespace IkasAdminApiLibrary
         IHttpRequest httpRequest, 
         IAuthenticationManager authenticationManager) : IGraphQLService
     {
+        private static readonly JsonSerializerSettings VariablePayloadSerializerSettings = new()
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+            NullValueHandling = NullValueHandling.Ignore,
+            Converters = { new StringEnumConverter() }
+        };
+
         public IQuery<T> CreateQuery<T>(string name)
         {
             return new Query<T>(name, new QueryOptions
@@ -31,6 +41,23 @@ namespace IkasAdminApiLibrary
             {
                 _ = await authenticationManager.GetAccessToken();
                 result = await postAsync<T>(query, path, true);
+            }
+
+            return result;
+        }
+
+        public async Task<IResult<T>> MutationQueryAsync<T>(
+            string query,
+            object? variables,
+            string path,
+            string? serviceAddress = null)
+        {
+            var result = await postAsync<T>(query, variables, path, serviceAddress);
+
+            if (result.GetCode() == "LOGIN_REQUIRED")
+            {
+                _ = await authenticationManager.GetAccessToken();
+                result = await postAsync<T>(query, variables, path, serviceAddress);
             }
 
             return result;
@@ -58,6 +85,31 @@ namespace IkasAdminApiLibrary
             string strPayload = JsonConvert.SerializeObject(payload);
             HttpContent httpContent = new StringContent(strPayload, Encoding.UTF8, "application/json");
 
+            return await postPayloadAsync<T>(httpContent, path, config.GetServiceAddress());
+        }
+
+        protected async Task<IResult<T>> postAsync<T>(
+            string query,
+            object? variables,
+            string path,
+            string? serviceAddress = null)
+        {
+            Dictionary<string, object?> payload = new()
+            {
+                ["query"] = query
+            };
+
+            if (variables != null)
+                payload["variables"] = variables;
+
+            string strPayload = JsonConvert.SerializeObject(payload, VariablePayloadSerializerSettings);
+            HttpContent httpContent = new StringContent(strPayload, Encoding.UTF8, "application/json");
+
+            return await postPayloadAsync<T>(httpContent, path, serviceAddress ?? config.GetServiceAddress());
+        }
+
+        private async Task<IResult<T>> postPayloadAsync<T>(HttpContent httpContent, string path, string serviceAddress)
+        {
             List<IHttpHeader> headers = [];
             if (authenticationManager.Token != null)
                 headers.Add(new HttpHeader(
@@ -65,7 +117,7 @@ namespace IkasAdminApiLibrary
                     authenticationManager.Token.TokenType + " " + authenticationManager.Token.AccessToken
                     ));
 
-            IHttpResult httpResult = await httpRequest.PostAsync(config.GetServiceAddress(), headers, httpContent);
+            IHttpResult httpResult = await httpRequest.PostAsync(serviceAddress, headers, httpContent);
             var content = httpResult.GetContent() ?? "";
 
             if (httpResult.GetStatusCode() == 403)
@@ -95,7 +147,7 @@ namespace IkasAdminApiLibrary
                     var model = data.ToObject<T>(new JsonSerializer
                     {
                         DateParseHandling = DateParseHandling.None,
-                        Converters = { new UnixDateTimeConverter() }
+                        Converters = { new IkasUnixDateTimeConverter() }
                     });
                     if (model == null)
                         return Result<T>.Fail();

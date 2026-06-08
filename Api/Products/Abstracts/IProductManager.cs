@@ -10,6 +10,8 @@ namespace IkasAdminApiLibrary.Api.Products.Abstracts
     {
         public Task<IResult<Product>> Save(ProductInput productInput);
 
+        public Task<IResult<Product>> AddVariant(AddVariantToProductInput input);
+
         public Task<IResult<bool>> SaveVariantPrices(SaveVariantPricesInput saveVariantPricesInput);
 
         public Task<IResult<Pagination<Product>>> List(ListProductInput? input = null);
