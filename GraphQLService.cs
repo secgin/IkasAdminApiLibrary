@@ -127,6 +127,9 @@ namespace IkasAdminApiLibrary
                 return Result<T>.Fail("UNAUTHORIZED", message);
             }
 
+            if (httpResult.GetStatusCode() == 429)
+                return Result<T>.Fail("429", content);
+
             var response = JsonConvert.DeserializeObject<Response>(content);
             if (response == null)
                 return Result<T>.Fail();

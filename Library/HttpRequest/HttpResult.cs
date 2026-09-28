@@ -27,7 +27,7 @@ namespace IkasAdminApiLibrary.Library.HttpRequest
 
         public static HttpResult Error(int statusCode, string? content, string? errorMessage = null)
         {
-            return new HttpResult(false, statusCode, content, null);
+            return new HttpResult(false, statusCode, content, errorMessage);
         }
 
         public bool IsSuccess() => success;
